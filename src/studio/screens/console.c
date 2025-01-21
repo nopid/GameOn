@@ -2684,6 +2684,43 @@ static void onAddCommand(Console* console)
     }, onAddFile, console);
 }
 
+static void onClipText(Console* console, const char* text)
+{
+    printLine(console);
+    if (text) {
+        tic_sys_clipboard_set(text);
+        printBack(console, "clipboard updated.");
+    } else {
+        printBack(console, "clipboard not updated.");
+    }
+    commandDone(console);
+}
+
+static void onClipCommand(Console* console)
+{
+    void* data = NULL;
+
+    EM_ASM_
+    ({
+        Module.showClipPopup(function(text)
+        {
+            if(text == null)
+            {
+                dynCall('vii', $0, [$1, 0]);
+            }
+            else
+            {
+                var textPtr = _malloc(text.length + 1);
+                stringToUTF8(text, textPtr, text.length + 1);
+
+                dynCall('vii', $0, [$1, textPtr]);
+
+                _free(textPtr);
+            }
+        }, Module.UTF8ToString($2));
+    }, onClipText, console, tic_sys_clipboard_get());
+}
+
 static void onGetCommand(Console* console)
 {
     if(console->desc->count)
@@ -2750,6 +2787,15 @@ static const char HelpUsage[] = "help [<text>"
         onGetCommand,                                                                   \
         tabCompleteFiles,                                                               \
         NULL)                                                                           \
+                                                                                        \
+    macro("sel",                                                                        \
+        NULL,                                                                           \
+        "access clipboard buffer from the browser.",                                    \
+        NULL,                                                                           \
+        onClipCommand,                                                                  \
+        NULL,                                                                           \
+        NULL)                                                                           \
+
 
 #else
 #define ADDGET_FILE(macro)

@@ -36,9 +36,17 @@
 
     <div id="add-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times</span>
+            <span class="close">&times;</span>
             <p>Select a file to add to the computer</p>
             <p><input type="file" id="upload-input"></input></p>
+        </div>
+    </div>
+
+    <div id="clip-modal" class="modal">
+        <div class="modal-content" tabindex="0">
+            <span class="close">&times;</span>
+            <p>Modify clipboard buffer</p>
+            <p><textarea id="clip-text" style="width: 100%" rows="20" autofocus>THE CAKE IS A LIE</textarea></p>
         </div>
     </div>
 
@@ -54,6 +62,21 @@
             firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag); // append the script to the DOM
             this.remove()
         });
+
+	const clipText = document.getElementById('clip-text')
+	const evs = ["focus", "keypress"]
+	for (const ev of evs) {
+	clipText.addEventListener(ev, function(e) {
+	    e.stopImmediatePropagation();
+        }, { capture: true });
+	}
+	clipText.addEventListener("keydown", function(e) {
+	   e.stopImmediatePropagation();
+	    if (e.key == "Escape") {
+		var span = document.getElementsByClassName("close")[1];
+		span.dispatchEvent(new Event('click'));
+	    }
+        }, { capture: true });
     </script>
 </body>
 </html>

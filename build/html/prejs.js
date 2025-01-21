@@ -30,3 +30,18 @@ Module.showAddPopup = function(callback)
 		reader.readAsArrayBuffer(file);
 	};
 };
+Module.showClipPopup = function(callback, text)
+{
+	var modal = document.getElementById('clip-modal');
+	var span = document.getElementsByClassName("close")[1];
+	var clip = document.getElementById('clip-text');
+	clip.value = text;
+	modal.style.display = "block";
+	function done() {
+		modal.style.display = "none";
+		callback(clip.value);
+	}
+	span.onclick = done;
+	window.onclick = function(event) {if (event.target == modal) done();}
+	clip.focus();
+};
