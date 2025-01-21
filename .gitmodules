@@ -84,5 +84,4 @@
 	shallow = true
 [submodule "vendor/msf_gif"]
 	path = vendor/msf_gif
-	url = https://github.com/notnullnotvoid/msf_gif.git
-	shallow = true
+	url = https://github.com/nopid/msf_gif.git

@@ -59,7 +59,7 @@
 #include <emscripten.h>
 #endif
 
-static const char* PublicDir = TIC_HOST;
+static const char* PublicDir = "GameOn";
 
 struct tic_fs
 {
@@ -430,7 +430,7 @@ void tic_fs_enum(tic_fs* fs, fs_list_callback onItem, fs_done_callback onDone, v
     if(isPublic(fs))
     {
         char request[TICNAME_MAX];
-        snprintf(request, sizeof request, "/api?fn=dir&path=%s", fs->work + sizeof(TIC_HOST));
+        snprintf(request, sizeof request, "/gameon/cart/%s.json", fs->work);
 
         NetDirData netDirData = { onItem, onDone, data };
         tic_net_get(fs->net, request, onDirResponse, MOVE(netDirData));
@@ -811,7 +811,7 @@ void tic_fs_hashload(tic_fs* fs, const char* name, const char* hash, fs_load_cal
 
 #if defined(BUILD_EDITORS)
     char path[TICNAME_MAX];
-    snprintf(path, sizeof path, "/cart/%s/%s", hash, name);
+    snprintf(path, sizeof path, "/gameon/cart/%s/%s", hash, name);
 
     LoadFileByHashData loadFileByHashData = { fs, callback, data, strdup(cachePath) };
     tic_net_get(fs->net, path, fileByHashLoaded, MOVE(loadFileByHashData));

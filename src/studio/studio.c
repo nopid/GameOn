@@ -1921,7 +1921,7 @@ static void recordFrame(Studio* studio, u32* pixels)
         if(studio->video.screenshot)
         {
             studio->video.screenshot = false;
-            stopVideoRecord(studio, VideoGif);
+            stopVideoRecord(studio, ScreenGif);
             return;
         }
 
@@ -2462,6 +2462,10 @@ Studio* studio_create(s32 argc, char **argv, s32 samplerate, tic80_pixel_color_f
 
         .samplerate = samplerate,
         .net = tic_net_create(TIC_WEBSITE),
+	.video =
+	{
+	    .buffer = NULL,
+	},
 #endif
         .tic = tic_core_create(samplerate, format),
     };
@@ -2561,6 +2565,8 @@ Studio* studio_create(s32 argc, char **argv, s32 samplerate, tic80_pixel_color_f
     studio->config->data.options.vsync      |= args.vsync;
     studio->config->data.soft               |= args.soft;
     studio->config->data.cli                |= args.cli;
+
+    studioConfigChanged(studio);
 
     if(args.cli)
         args.skip = true;

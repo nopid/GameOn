@@ -369,7 +369,7 @@ static void requestCover(Surf* surf, SurfItem* item)
     }
 
     char path[TICNAME_MAX];
-    sprintf(path, "/cart/%s/cover.gif", hash);
+    sprintf(path, "/gameon/cart/%s/cover.gif", hash);
 
     tic_net_get(surf->net, path, coverLoaded, MOVE(coverLoadingData));
 }
@@ -676,7 +676,7 @@ static void processGamepad(Surf* surf)
             goBackDir(surf);
         }
 
-#ifdef CAN_OPEN_URL
+#ifdef CAN_OPEN_URL_NOT
 
         if(tic_api_btnp(tic, Y, -1, -1))
         {
