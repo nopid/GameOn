@@ -9,6 +9,7 @@ jobs:
   # === HTML ===
   html:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/gameon'
 
     steps:
       - uses: mymindstorm/setup-emsdk@v14
@@ -32,33 +33,10 @@ jobs:
           cp html/index.html bin/index.html
 
       - name: Deploy
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: "tic80-html"
+          name: "tic80-gameon"
           path: |
             build/bin/tic80.js
             build/bin/tic80.wasm
             build/bin/index.html
-
-  # === Export ===
-  export:
-    needs: [html]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download HTML artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: tic80-html
-
-      - name: Rename
-        run: |
-          zip html.zip index.html tic80.js tic80.wasm
-          mv -f html.zip html
-
-      - name: Deploy
-        uses: actions/upload-artifact@v3
-        with:
-          name: "tic80-export"
-          path: |
-            html
