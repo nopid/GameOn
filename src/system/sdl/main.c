@@ -1662,9 +1662,9 @@ void tic_sys_default_mapping(tic_mapping* mapping)
         SDL_SCANCODE_DOWN,
         SDL_SCANCODE_LEFT,
         SDL_SCANCODE_RIGHT,
-        SDL_SCANCODE_Z,
+        SDL_SCANCODE_W,
         SDL_SCANCODE_X,
-        SDL_SCANCODE_A,
+        SDL_SCANCODE_Q,
         SDL_SCANCODE_S,
     };
 
